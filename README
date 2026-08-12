@@ -1,34 +1,31 @@
-# Sheela — Portfolio Site
+Sheela — Portfolio Site
 
 A single-page portfolio for a muralist/graffiti artist. Built as one self-contained HTML file — no build tools, no framework, no dependencies beyond two CDN font links. Open it in a browser and it works.
 
-## Quick start
+Quick start
 
-Open `index.html` in a browser. To edit, open the folder in any code/text editor (VS Code recommended) — you'll be working across two files now: `index.html` for markup and `styles.css` for styling.
+Open index.html in a browser. To edit, open the folder in any code/text editor (VS Code recommended) — you'll be working across two files now: index.html for markup and styles.css for styling.
 
-No `npm install`, no server required — though if you want live-reload while editing, VS Code's **Live Server** extension works well here.
+No npm install, no server required — though if you want live-reload while editing, VS Code's Live Server extension works well here.
 
----
+File structure
+index.html — markup
+styles.css — all styling
+script.js — portfolio filter button logic
+README.md — this file
 
-## File structure
+index.html's <head> links styles.css, and the closing <body> links script.js, both the standard way:
 
-```
-index.html          — markup + nav filter script
-styles.css           — all styling
-README.md            — this file
-```
+html
 
-`index.html`'s `<head>` links `styles.css` the standard way:
+<link rel="stylesheet" href="styles.css">
+...
+<script src="script.js"></script>
 
-```html
-<link rel="stylesheet" href="styles.css" />
-```
+Keep all three files in the same folder — both links are relative paths, so moving one without the others (or renaming a file) will break something silently: an unstyled page if styles.css goes missing, or working-looking-but-inert filter buttons if script.js goes missing. If either breaks, that's the first thing to check.
 
-Keep both files in the same folder — the link is a relative path, so moving one without the other (or renaming `styles.css`) will break the page's styling silently. If you ever see unstyled HTML, that's the first thing to check.
+Within index.html, sections are in DOM order, top to bottom:
 
-Within `index.html`, sections are in DOM order, top to bottom:
-
-```
 <nav>                       — fixed top navigation
 <header class="hero">       — landing section
 <section id="work">         — portfolio grid + filters
@@ -36,55 +33,53 @@ Within `index.html`, sections are in DOM order, top to bottom:
 <section id="press">        — scrolling press ticker
 <section class="cta">       — contact call-to-action
 <footer id="contact">       — footer links
-<script>                    — filter button logic (vanilla JS)
-```
+Design system
+Token	Value	Used for
+--concrete	
+#EDEAE2	Page background
+--concrete-dark	
+#DFDBD0	Borders on light sections
+--ink	
+#17151A	Text, dark section backgrounds
+--chalk	
+#8B877E	Secondary/muted text
+--pink	
+#FF2E63	Primary accent (links, highlights, stats)
+--cyan	
+#00C2D1	Secondary accent (grid tile #3)
+--yellow	
+#F5B700	Reserved tertiary accent, not heavily used yet
 
----
+Type:
 
-## Design system
+Anton — display headlines (h1, h2, nav logo). Bold/condensed, does the "poster" work.
+Inter — body copy, paragraph text.
+JetBrains Mono — captions, dimensions, dates, nav links, buttons. Modeled on gallery wall-text/museum plaques — it's why the portfolio captions (title / location / dimensions) feel intentional instead of like generic card text.
 
-| Token             | Value     | Used for                                       |
-| ----------------- | --------- | ---------------------------------------------- |
-| `--concrete`      | `#EDEAE2` | Page background                                |
-| `--concrete-dark` | `#DFDBD0` | Borders on light sections                      |
-| `--ink`           | `#17151A` | Text, dark section backgrounds                 |
-| `--chalk`         | `#8B877E` | Secondary/muted text                           |
-| `--pink`          | `#FF2E63` | Primary accent (links, highlights, stats)      |
-| `--cyan`          | `#00C2D1` | Secondary accent (grid tile #3)                |
-| `--yellow`        | `#F5B700` | Reserved tertiary accent, not heavily used yet |
+Change any of these by editing the :root variables and the two font-family values near the top of styles.css — everything else in that file references them.
 
-**Type:**
+Replacing placeholder content
+Photos
 
-- **Anton** — display headlines (`h1`, `h2`, nav logo). Bold/condensed, does the "poster" work.
-- **Inter** — body copy, paragraph text.
-- **JetBrains Mono** — captions, dimensions, dates, nav links, buttons. Modeled on gallery wall-text/museum plaques — it's why the portfolio captions (title / location / dimensions) feel intentional instead of like generic card text.
+Every image slot is currently a CSS gradient placeholder with a [ photo ] label so the layout reads correctly before real images exist. Replace them by either:
 
-Change any of these by editing the `:root` variables and the two `font-family` values near the top of `styles.css` — everything else in that file references them.
-
----
-
-## Replacing placeholder content
-
-### Photos
-
-Every image slot is currently a CSS gradient placeholder with a `[ photo ]` label so the layout reads correctly before real images exist. Replace them by either:
-
-1. Adding an `<img>` inside the container, or
-2. Setting a `background-image` on the container in CSS
+Adding an <img> inside the container, or
+Setting a background-image on the container in CSS
 
 Slots to update:
 
-- `.hero-panel` (right side of the landing section)
-- `.tile-art` (each portfolio grid item — currently colored via `nth-child(3n+1/2/3)` rules)
-- `.about-portrait` (About section)
+.hero-panel (right side of the landing section)
+.tile-art (each portfolio grid item — currently colored via nth-child(3n+1/2/3) rules)
+.about-portrait (About section)
 
 Compress images before adding them (TinyPNG or Squoosh) — large mural photos can be huge and will slow the page down.
 
-### Portfolio items
+Portfolio items
 
-Each grid item is a `.tile` block in the `#work` section:
+Each grid item is a .tile block in the #work section:
 
-```html
+html
+
 <div class="tile" data-cat="mural">
   <div class="tile-art"><span class="nozzle"></span>[ photo ]</div>
   <div class="plaque">
@@ -93,54 +88,40 @@ Each grid item is a `.tile` block in the `#work` section:
     <div class="dims">DIMENSIONS</div>
   </div>
 </div>
-```
 
-`data-cat` controls filtering — must be `mural`, `lettering`, or `live` to match the filter buttons. Add more categories by adding a new `<button data-filter="yourcategory">` and matching `data-cat` values.
+data-cat controls filtering — must be mural, lettering, or live to match the filter buttons. Add more categories by adding a new <button data-filter="yourcategory"> and matching data-cat values.
 
-### Text content
+Text content
 
-Bio copy, stats, press outlet names, contact info — all plain text in the HTML, search-and-replace as needed. Instagram link in the footer is currently `href="#"` — swap in your real profile URL.
+Bio copy, stats, press outlet names, contact info — all plain text in the HTML, search-and-replace as needed. Instagram link in the footer is currently href="#" — swap in your real profile URL.
 
----
+Known quirks & fixes (worth understanding, not just copying)
 
-## Known quirks & fixes (worth understanding, not just copying)
+Fixed-nav scroll offset. Because the nav is position: fixed, clicking an anchor link (#about, #press, etc.) would otherwise scroll the target's top edge flush with the actual top of the viewport — hidden behind the nav. Fixed with:
 
-**Fixed-nav scroll offset.** Because the nav is `position: fixed`, clicking an anchor link (`#about`, `#press`, etc.) would otherwise scroll the target's top edge flush with the _actual_ top of the viewport — hidden behind the nav. Fixed with:
+css
+section[id], footer[id]{ scroll-margin-top: 80px; }
 
-```css
-section[id],
-footer[id] {
-  scroll-margin-top: 80px;
-}
-```
+This tells the browser to stop scrolling 80px early for any element with an id, clearing the nav automatically.
 
-This tells the browser to stop scrolling 80px early for any element with an `id`, clearing the nav automatically.
+Scroll clamping on short/late sections. The Press ticker section sits close to the bottom of the page (only the CTA and footer follow it). Scrolling its top edge to the viewport top would require scrolling past the bottom of the document — which browsers can't do, so they clamp to max scroll and you land further down than intended, in the next section. Fixed two ways: the scroll-margin-top above (reduces how far it needs to scroll) and giving the Press section more padding (34px → 64px) so there's more scrollable room around it.
 
-**Scroll clamping on short/late sections.** The Press ticker section sits close to the bottom of the page (only the CTA and footer follow it). Scrolling its top edge to the viewport top would require scrolling _past_ the bottom of the document — which browsers can't do, so they clamp to max scroll and you land further down than intended, in the next section. Fixed two ways: the `scroll-margin-top` above (reduces how far it needs to scroll) and giving the Press section more padding (34px → 64px) so there's more scrollable room around it.
+mix-blend-mode: difference on the nav was tried first for that classic "nav that inverts colors under it" look, but it broke down over the white portfolio grid (unreadable text). Replaced with a simple translucent + blurred background (backdrop-filter: blur) that stays legible over both light and dark sections. Worth remembering: blend modes look great in isolation and need testing against every background they'll actually sit on.
 
-**`mix-blend-mode: difference` on the nav** was tried first for that classic "nav that inverts colors under it" look, but it broke down over the white portfolio grid (unreadable text). Replaced with a simple translucent + blurred background (`backdrop-filter: blur`) that stays legible over both light and dark sections. Worth remembering: blend modes look great in isolation and need testing against _every_ background they'll actually sit on.
+Scrollspy (not yet implemented)
 
----
+Right now nav links just jump to sections — nothing highlights which section you're currently viewing. Real scrollspy would use IntersectionObserver to watch each section and toggle an .active class on the matching nav link as it enters/exits the viewport. Good next feature to build if you want to practice that API.
 
-## Scrollspy (not yet implemented)
+Browser support
 
-Right now nav links just jump to sections — nothing highlights which section you're currently viewing. Real scrollspy would use `IntersectionObserver` to watch each section and toggle an `.active` class on the matching nav link as it enters/exits the viewport. Good next feature to build if you want to practice that API.
+Uses backdrop-filter, clip-path, CSS Grid, and aspect-ratio — all standard in current Chrome/Firefox/Safari/Edge. No IE11 support (not worth targeting in 2026).
 
----
+Respects prefers-reduced-motion (disables the press ticker's scrolling animation and instant-jumps instead of smooth-scrolling for anchor links).
 
-## Browser support
-
-Uses `backdrop-filter`, `clip-path`, CSS Grid, and `aspect-ratio` — all standard in current Chrome/Firefox/Safari/Edge. No IE11 support (not worth targeting in 2026).
-
-Respects `prefers-reduced-motion` (disables the press ticker's scrolling animation and instant-jumps instead of smooth-scrolling for anchor links).
-
----
-
-## Before going live
-
-- [ ] Replace all `[ photo ]` placeholders with real images
-- [ ] Add real Instagram URL in the footer
-- [ ] Confirm email/phone are correct and update `mailto:` / `tel:` links to match
-- [ ] Test on an actual phone, not just narrow-browser simulation
-- [ ] Run a Lighthouse audit in Chrome DevTools (Performance + Accessibility) once images are in — large image files are the most likely thing to tank the score
-- [ ] Pick real hosting (Netlify, Vercel, GitHub Pages, or a site builder like Carrd if you want zero server management)
+Before going live
+Replace all [ photo ] placeholders with real images
+Add real Instagram URL in the footer
+Confirm email/phone are correct and update mailto: / tel: links to match
+Test on an actual phone, not just narrow-browser simulation
+Run a Lighthouse audit in Chrome DevTools (Performance + Accessibility) once images are in — large image files are the most likely thing to tank the score
+Pick real hosting (Netlify, Vercel, GitHub Pages, or a site builder like Carrd if you want zero server management)
