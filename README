@@ -1,8 +1,10 @@
-# Shevaa — Portfolio Site
+# Sheela — Portfolio Site
 
 A single-page portfolio for a muralist/graffiti artist. Built as one self-contained HTML file — no build tools, no framework, no dependencies beyond two CDN font links. Open it in a browser and it works.
 
 ## Quick start
+
+Open `index.html` in a browser. To edit, open the folder in any code/text editor (VS Code recommended) — you'll be working across two files now: `index.html` for markup and `styles.css` for styling.
 
 No `npm install`, no server required — though if you want live-reload while editing, VS Code's **Live Server** extension works well here.
 
@@ -10,22 +12,32 @@ No `npm install`, no server required — though if you want live-reload while ed
 
 ## File structure
 
-Everything lives in one file:
-
 ```
-sheela-portfolio.html
-├── <head>          — fonts, all CSS (in a <style> block)
-├── <nav>           — fixed top navigation
-├── <header class="hero">   — landing section
-├── <section id="work">     — portfolio grid + filters
-├── <section id="about">    — bio + stats
-├── <section id="press">    — scrolling press ticker
-├── <section class="cta">   — contact call-to-action
-├── <footer id="contact">   — footer links
-└── <script>        — filter button logic (vanilla JS)
+index.html          — markup + nav filter script
+styles.css           — all styling
+README.md            — this file
 ```
 
-Sections are in DOM order, top to bottom — the nav just links to each one's `id`.
+`index.html`'s `<head>` links `styles.css` the standard way:
+
+```html
+<link rel="stylesheet" href="styles.css" />
+```
+
+Keep both files in the same folder — the link is a relative path, so moving one without the other (or renaming `styles.css`) will break the page's styling silently. If you ever see unstyled HTML, that's the first thing to check.
+
+Within `index.html`, sections are in DOM order, top to bottom:
+
+```
+<nav>                       — fixed top navigation
+<header class="hero">       — landing section
+<section id="work">         — portfolio grid + filters
+<section id="about">        — bio + stats
+<section id="press">        — scrolling press ticker
+<section class="cta">       — contact call-to-action
+<footer id="contact">       — footer links
+<script>                    — filter button logic (vanilla JS)
+```
 
 ---
 
@@ -47,7 +59,7 @@ Sections are in DOM order, top to bottom — the nav just links to each one's `i
 - **Inter** — body copy, paragraph text.
 - **JetBrains Mono** — captions, dimensions, dates, nav links, buttons. Modeled on gallery wall-text/museum plaques — it's why the portfolio captions (title / location / dimensions) feel intentional instead of like generic card text.
 
-Change any of these by editing the `:root` variables and the two `font-family` values at the top of the `<style>` block — everything else references them.
+Change any of these by editing the `:root` variables and the two `font-family` values near the top of `styles.css` — everything else in that file references them.
 
 ---
 
