@@ -156,13 +156,15 @@ nav ul a:hover {
 
 .hero-panel {
   position: relative;
-  background: repeating-linear-gradient(
-    135deg,
-    #35313c 0px,
-    #35313c 2px,
-    #221f28 2px,
-    #221f28 34px
-  );
+  background:
+    url("../images/WeRiseMpls.jpg") center/cover,
+    repeating-linear-gradient(
+      135deg,
+      #35313c 0px,
+      #35313c 2px,
+      #221f28 2px,
+      #221f28 34px
+    );
   display: flex;
   align-items: flex-end;
   clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
