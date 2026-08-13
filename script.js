@@ -10,3 +10,20 @@ buttons.forEach((btn) => {
     });
   });
 });
+
+
+document.querySelectorAll(".tile-art").forEach((tileArt) => {
+  const scroller = tileArt.querySelector(".tile-scroll");
+  const prevBtn = tileArt.querySelector(".prev");
+  const nextBtn = tileArt.querySelector(".next");
+
+  if (!scroller || !prevBtn || !nextBtn) return;
+
+  nextBtn.addEventListener("click", () => {
+    scroller.scrollBy({ left: scroller.clientWidth, behavior: "smooth" });
+  });
+
+  prevBtn.addEventListener("click", () => {
+    scroller.scrollBy({ left: -scroller.clientWidth, behavior: "smooth" });
+  });
+});

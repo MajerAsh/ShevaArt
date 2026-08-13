@@ -283,15 +283,33 @@ footer[id] {
 .tile-art {
   aspect-ratio: 4/3;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   color: rgba(255, 255, 255, 0.85);
   font-family: "JetBrains Mono", monospace;
   font-size: 12px;
   text-align: center;
+  /* remove display:flex / align-items / justify-content — the scroll wrapper handles layout now */
 }
+
+.tile-scroll {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* smooth swipe on iOS */
+  scrollbar-width: none; /* hide scrollbar in Firefox */
+}
+.tile-scroll::-webkit-scrollbar {
+  display: none; /* hide scrollbar in Chrome/Safari */
+}
+
+.tile-scroll img {
+  flex: 0 0 100%; /* each image takes the full tile width */
+  height: 100%;
+  object-fit: cover;
+  scroll-snap-align: start; /* makes each image "snap" into view */
+}
+
 .tile-art span.nozzle {
   position: absolute;
   top: 10px;
@@ -310,6 +328,37 @@ footer[id] {
 .tile:nth-child(3n + 3) .tile-art {
   background: linear-gradient(135deg, #004c53, #00c2d1);
 }
+
+/*Tile Scroll*/
+.tile-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(23, 21, 26, 0.55);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.tile-nav:hover {
+  background: rgba(23, 21, 26, 0.85);
+}
+.tile-nav.prev {
+  left: 10px;
+}
+.tile-nav.next {
+  right: 10px;
+}
+
 .plaque {
   padding: 16px 18px 20px;
   font-family: "JetBrains Mono", monospace;
