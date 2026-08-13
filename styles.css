@@ -170,6 +170,21 @@ nav ul a:hover {
   clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
   border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+@media (min-width: 861px) {
+  .hero-panel {
+    background:
+      url("../images/flowers.jpg") center/cover,
+      repeating-linear-gradient(
+        135deg,
+        #35313c 0px,
+        #35313c 2px,
+        #221f28 2px,
+        #221f28 34px
+      );
+  }
+}
+
 .hero-panel::before {
   content: "";
   position: absolute;
