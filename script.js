@@ -1,29 +1,36 @@
-const buttons = document.querySelectorAll(".filters button");
+const filterButtons = document.querySelectorAll(".filters button");
 const tiles = document.querySelectorAll(".tile");
-buttons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    buttons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    const f = btn.dataset.filter;
-    tiles.forEach((t) => {
-      t.style.display = f === "all" || t.dataset.cat === f ? "" : "none";
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    // Reset all buttons, then mark only the clicked one as active
+    filterButtons.forEach((b) => b.classList.remove("active"));
+    button.classList.add("active");
+
+    const activeFilter = button.dataset.filter;
+
+    tiles.forEach((tile) => {
+      // A tile can belong to multiple categories, e.g. data-cat="mural lettering"
+      const tileCategories = tile.dataset.cat.split(" ");
+      const isMatch =
+        activeFilter === "all" || tileCategories.includes(activeFilter);
+      tile.style.display = isMatch ? "" : "none";
     });
   });
 });
 
-
 document.querySelectorAll(".tile-art").forEach((tileArt) => {
   const scroller = tileArt.querySelector(".tile-scroll");
-  const prevBtn = tileArt.querySelector(".prev");
-  const nextBtn = tileArt.querySelector(".next");
+  const prevButton = tileArt.querySelector(".prev");
+  const nextButton = tileArt.querySelector(".next");
 
-  if (!scroller || !prevBtn || !nextBtn) return;
+  if (!scroller || !prevButton || !nextButton) return;
 
-  nextBtn.addEventListener("click", () => {
+  nextButton.addEventListener("click", () => {
     scroller.scrollBy({ left: scroller.clientWidth, behavior: "smooth" });
   });
 
-  prevBtn.addEventListener("click", () => {
+  prevButton.addEventListener("click", () => {
     scroller.scrollBy({ left: -scroller.clientWidth, behavior: "smooth" });
   });
 });

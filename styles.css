@@ -288,7 +288,7 @@ footer[id] {
   font-family: "JetBrains Mono", monospace;
   font-size: 12px;
   text-align: center;
-  /* remove display:flex / align-items / justify-content — the scroll wrapper handles layout now */
+  /* removed display:flex / align-items / justify-content — the scroll wrapper handles layout now */
 }
 
 .tile-scroll {
