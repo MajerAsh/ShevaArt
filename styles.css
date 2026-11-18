@@ -174,7 +174,7 @@ nav ul a:hover {
 @media (min-width: 861px) {
   .hero-panel {
     background:
-      url("../images/flowers.jpg") center/cover,
+      url("../images/flowers.WebP") center/cover,
       repeating-linear-gradient(
         135deg,
         #35313c 0px,
