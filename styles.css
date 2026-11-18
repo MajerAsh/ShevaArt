@@ -212,7 +212,7 @@ nav ul a:hover {
   text-transform: uppercase;
 }
 
-/* drip divider */
+/* ----------- drip divider -------------- */
 .drip {
   width: 100%;
   display: block;
@@ -378,6 +378,67 @@ footer[id] {
   font-size: 11px;
   color: var(--pink);
   margin-top: 6px;
+}
+/* --------- Lightbox ---------- */
+.tile-scroll img {
+  cursor: zoom-in;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lb-img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain; /* keeps aspect ratio, never crops */
+  cursor: zoom-out;
+}
+
+.lb-close,
+.lb-nav {
+  position: absolute;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 1;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.lb-close:hover,
+.lb-nav:hover {
+  opacity: 1;
+}
+.lb-close {
+  top: 0.5rem;
+  right: 0.5rem;
+}
+.lb-prev {
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lb-next {
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* ---------- about ---------- */
