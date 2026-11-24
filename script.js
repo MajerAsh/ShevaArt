@@ -1,50 +1,27 @@
 const filterButtons = document.querySelectorAll(".filters button");
 const tiles = document.querySelectorAll(".tile");
-// ---------- lightbox-------
+const grid = document.getElementById("grid");
+
 const lightbox = document.getElementById("lightbox");
 const lbImg = lightbox.querySelector(".lb-img");
 const prevBtn = lightbox.querySelector(".lb-prev");
 const nextBtn = lightbox.querySelector(".lb-next");
 
+// ---------- State ----------
 let photos = []; // images in the tile that was clicked
 let index = 0;
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    // Reset all buttons, then mark only the clicked one as active
-    filterButtons.forEach((b) => b.classList.remove("active"));
-    button.classList.add("active");
-
-    const activeFilter = button.dataset.filter;
-
-    tiles.forEach((tile) => {
-      // A tile can belong to multiple categories, e.g. data-cat="mural lettering"
-      const tileCategories = tile.dataset.cat.split(" ");
-      const isMatch =
-        activeFilter === "all" || tileCategories.includes(activeFilter);
-      tile.style.display = isMatch ? "" : "none";
-    });
+// ---------- Filter ----------
+function applyFilter(activeFilter) {
+  tiles.forEach((tile) => {
+    const tileCategories = tile.dataset.cat.split(" ");
+    const isMatch =
+      activeFilter === "all" || tileCategories.includes(activeFilter);
+    tile.style.display = isMatch ? "" : "none";
   });
-});
+}
 
-document.querySelectorAll(".tile-art").forEach((tileArt) => {
-  const scroller = tileArt.querySelector(".tile-scroll");
-  const prevButton = tileArt.querySelector(".prev");
-  const nextButton = tileArt.querySelector(".next");
-
-  if (!scroller || !prevButton || !nextButton) return;
-
-  nextButton.addEventListener("click", () => {
-    scroller.scrollBy({ left: scroller.clientWidth, behavior: "smooth" });
-  });
-
-  prevButton.addEventListener("click", () => {
-    scroller.scrollBy({ left: -scroller.clientWidth, behavior: "smooth" });
-  });
-});
-
-// ---------- lightbox-------
-
+// ---------- Lightbox ----------
 function show() {
   const img = photos[index];
   lbImg.src = img.currentSrc || img.src;
@@ -69,8 +46,35 @@ function step(dir) {
   show();
 }
 
-// One listener on the grid handles every tile, including ones added later
-document.getElementById("grid").addEventListener("click", (e) => {
+// ---------- Event listeners: filter pills ----------
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach((b) => b.classList.remove("active"));
+    button.classList.add("active");
+    applyFilter(button.dataset.filter);
+  });
+});
+
+// ---------- Event listeners: in-tile photo scroll ----------
+document.querySelectorAll(".tile-art").forEach((tileArt) => {
+  const scroller = tileArt.querySelector(".tile-scroll");
+  const prevButton = tileArt.querySelector(".prev");
+  const nextButton = tileArt.querySelector(".next");
+
+  if (!scroller || !prevButton || !nextButton) return;
+
+  nextButton.addEventListener("click", () => {
+    scroller.scrollBy({ left: scroller.clientWidth, behavior: "smooth" });
+  });
+
+  prevButton.addEventListener("click", () => {
+    scroller.scrollBy({ left: -scroller.clientWidth, behavior: "smooth" });
+  });
+});
+
+// ---------- Event listeners: lightbox ----------
+// One listener on the grid handles every tile
+grid.addEventListener("click", (e) => {
   const img = e.target.closest(".tile-scroll img");
   if (!img) return;
   photos = [...img.parentElement.querySelectorAll("img")];
@@ -78,7 +82,7 @@ document.getElementById("grid").addEventListener("click", (e) => {
   openLightbox();
 });
 
-// Close: backdrop click, image click, or the × button
+// Close on backdrop or image click (nav buttons are excluded)
 lightbox.addEventListener("click", (e) => {
   if (e.target.closest(".lb-nav")) return;
   closeLightbox();
@@ -93,3 +97,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") step(-1);
   if (e.key === "ArrowRight") step(1);
 });
+
+// ---------- Startup ----------
+applyFilter("bestof");
